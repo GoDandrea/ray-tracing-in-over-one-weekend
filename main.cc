@@ -9,24 +9,37 @@
 
 int main() {
 
+
     // Image
 
     const int image_width = 256;
     const int image_height = 256;
+    const int image_channels = 3;
+
+    unsigned char image_data[image_width * image_height * image_channels];
+    int index = 0;
+
 
     // Render
 
-    std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
-
     for (int j = image_height-1; j >= 0; --j) {
+        
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
         for (int i = 0; i < image_width; ++i) {
+        
             color pixel_color(double(i)/(image_width-1), 
                               double(j)/(image_height-1), 
                               0.25);
-            write_color(std::cout, pixel_color);
+            write_color(image_data, pixel_color, index);
+            index += 3;
         }
     }
 
+    stbi_write_png("image.png", 
+                    image_width, 
+                    image_height, 
+                    image_channels, 
+                    image_data,
+                    image_width * image_channels);
     std::cerr << "\nDone.\n";
 }
