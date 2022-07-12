@@ -7,7 +7,9 @@
 using std::sqrt;
 
 class vec3 {
+
     public:
+
         vec3() : e{0,0,0} {}
         vec3(double e0, double e1, double e2) : e{e0, e1, e2} {}
 
@@ -44,6 +46,19 @@ class vec3 {
         double length_squared() const {
             return e[0]*e[0] + e[1]*e[1] + e[2]*e[2];
         }
+
+        inline static vec3 random() {
+            return vec3(random_double(), 
+                        random_double(), 
+                        random_double());
+        }
+
+        inline static vec3 random(double min, double max) {
+            return vec3(random_double(min, max), 
+                        random_double(min, max), 
+                        random_double(min, max));
+        }
+
 
     public:
         double e[3];
@@ -96,9 +111,16 @@ inline vec3 unit_vector(vec3 v) {
     return v / v.length();
 }
 
+vec3 random_in_unit_sphere() {
+    while(true) {
+        auto p = vec3::random(-1,1);
+        if (p.length_squared() >= 1) continue;
+        return p;
+    }
+}
+
 
 // Type aliases for vec3
-
 using point3 = vec3;   // 3D point
 using color = vec3;    // RGB color
 
