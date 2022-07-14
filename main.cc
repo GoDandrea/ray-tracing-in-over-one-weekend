@@ -45,9 +45,9 @@ int main() {
 
     // Image
     const auto aspect_ratio = 16.0/9.0;
-    const int image_width = 400;
+    const int image_width = 500;
     const int image_height = static_cast<int>(image_width/aspect_ratio);
-    const int samples_per_pixel = 50;
+    const int samples_per_pixel = 64;
     const int max_depth = 50;
 
     int index = 0;
@@ -61,12 +61,13 @@ int main() {
     auto material_ground = make_shared<lambertian>(LEMON);
     auto material_center = make_shared<lambertian>(DARK_BLUE);
     auto material_left   = make_shared<dielectric>(1.5);
-    auto materal_right   = make_shared<metal>(GOLD, 1.0);
+    auto materal_right   = make_shared<metal>(GOLD, 0.1);
 
-    world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100, material_ground));
-    world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.4), 0.5, material_center));
-    world.add(make_shared<sphere>(point3(-1.1,    0.0, -1.4), 0.5, material_left));
-    world.add(make_shared<sphere>(point3( 1.1,    0.0, -1.4), 0.5, materal_right));
+    world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_ground));
+    world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.4),   0.5, material_center));
+    world.add(make_shared<sphere>(point3(-1.1,    0.0, -1.4),   0.5, material_left));
+    world.add(make_shared<sphere>(point3(-1.1,    0.0, -1.4),  -0.4, material_left));
+    world.add(make_shared<sphere>(point3( 1.1,    0.0, -1.4),   0.5, materal_right));
 
 
 
