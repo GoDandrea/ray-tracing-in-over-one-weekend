@@ -59,8 +59,8 @@ int main() {
 
     auto material_ground = make_shared<lambertian>(LEMON);
     auto material_center = make_shared<lambertian>(CLAY);
-    auto material_left   = make_shared<metal>(SILVER);
-    auto materal_right   = make_shared<metal>(GOLD);
+    auto material_left   = make_shared<metal>(SILVER, 0.3);
+    auto materal_right   = make_shared<metal>(GOLD, 1.0);
 
     world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100, material_ground));
     world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.4), 0.5, material_center));
