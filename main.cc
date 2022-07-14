@@ -56,6 +56,7 @@ int main() {
 
 
     // World
+    auto R = cos(pi/4);
     body_list world;
 
     auto material_ground = make_shared<lambertian>(LEMON);
@@ -70,9 +71,14 @@ int main() {
     world.add(make_shared<sphere>(point3( 1.1,    0.0, -1.4),   0.5, materal_right));
 
 
-
     // Camera
-    camera cam;
+    camera cam(
+            point3(0, 0, 0),
+            point3(0, 0, -1),
+            vec3(0, 1, 0),
+            90,
+            aspect_ratio
+        );
 
 
     // Render
