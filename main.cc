@@ -47,8 +47,8 @@ int main() {
     const auto aspect_ratio = 16.0/9.0;
     const int image_width = 500;
     const int image_height = static_cast<int>(image_width/aspect_ratio);
-    const int samples_per_pixel = 64;
-    const int max_depth = 50;
+    const int samples_per_pixel = 50;
+    const int max_depth = 32;
 
     int index = 0;
     const int image_channels = 3;
@@ -72,13 +72,14 @@ int main() {
 
 
     // Camera
-    camera cam(
-            point3(0, 0, 0),
-            point3(0, 0, -1),
-            vec3(0, 1, 0),
-            90,
-            aspect_ratio
-        );
+    point3 look_from(-3, 1.2, 2);
+    point3 look_at(0, 0, -1);
+    vec3 vup(0, 1, 0);
+    auto fov = 20;
+    auto dist_to_focus = (look_from - look_at).length();
+    auto aperture = 0.4;
+
+    camera cam(look_from, look_at, vup, fov, aspect_ratio, aperture, dist_to_focus);
 
 
     // Render
