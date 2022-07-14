@@ -14,6 +14,7 @@
 #define RED color(1,0,0)
 #define LEMON color(0.8, 0.8, 0.0)
 #define CLAY color(0.6, 0.4, 0.3)
+#define DARK_BLUE color(0.1, 0.2, 0.5) 
 #define SILVER color(0.8, 0.8, 0.8)
 #define GOLD color(0.8, 0.6, 0.2)
 
@@ -58,8 +59,8 @@ int main() {
     body_list world;
 
     auto material_ground = make_shared<lambertian>(LEMON);
-    auto material_center = make_shared<lambertian>(CLAY);
-    auto material_left   = make_shared<metal>(SILVER, 0.3);
+    auto material_center = make_shared<lambertian>(DARK_BLUE);
+    auto material_left   = make_shared<dielectric>(1.5);
     auto materal_right   = make_shared<metal>(GOLD, 1.0);
 
     world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100, material_ground));
