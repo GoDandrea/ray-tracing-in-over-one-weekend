@@ -4,13 +4,18 @@
 #include "body_list.h"
 #include "sphere.h"
 #include "camera.h"
+#include "material.h"
 
 #include <iostream>
 
 #define WHITE color(1,1,1)
 #define BLACK color(0,0,0)
 #define SKY_BLUE color(0.5,0.7,1.0)
-#define RED color(1,0,0);
+#define RED color(1,0,0)
+#define LEMON color(0.8, 0.8, 0.0)
+#define CLAY color(0.6, 0.4, 0.3)
+#define SILVER color(0.8, 0.8, 0.8)
+#define GOLD color(0.8, 0.6, 0.2)
 
 
 color ray_color(const ray &r, const body &world, int depth) {
@@ -22,8 +27,11 @@ color ray_color(const ray &r, const body &world, int depth) {
         return BLACK;
 
     if (world.hit(r, 0.001, infinity, rec)) {
-        point3 target = rec.p + rec.normal + random_unit_vector();
-        return 0.5 * ray_color(ray(rec.p, target - rec.p), world, depth-1);
+        ray scattered;
+        color attenuation;
+        if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
+            return attenuation * ray_color(scattered, world, depth-1);
+        return BLACK;
     }
 
     vec3 unit_direction = unit_vector(r.direction());
@@ -48,8 +56,17 @@ int main() {
 
     // World
     body_list world;
-    world.add(make_shared<sphere>(point3(0, 0, -1), 0.5));
-    world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));
+
+    auto material_ground = make_shared<lambertian>(LEMON);
+    auto material_center = make_shared<lambertian>(CLAY);
+    auto material_left   = make_shared<metal>(SILVER);
+    auto materal_right   = make_shared<metal>(GOLD);
+
+    world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100, material_ground));
+    world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.4), 0.5, material_center));
+    world.add(make_shared<sphere>(point3(-1.1,    0.0, -1.4), 0.5, material_left));
+    world.add(make_shared<sphere>(point3( 1.1,    0.0, -1.4), 0.5, materal_right));
+
 
 
     // Camera
